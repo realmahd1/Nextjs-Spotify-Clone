@@ -7,7 +7,7 @@ const Home: NextPage = () => {
   return (
     <div className="bg-black h-screen overflow-hidden">
       <Head>
-        <title>Create Next App</title>
+        <title>Spotify Clone</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
