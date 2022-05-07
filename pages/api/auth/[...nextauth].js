@@ -42,7 +42,7 @@ export default NextAuth({
     callbacks: {
         async jwt({ token, account, user }) {
             // initial sign in
-            if (account && !user) {
+            if (account && user) {
                 return {
                     ...token,
                     accessToken: account.access_token,
@@ -57,14 +57,12 @@ export default NextAuth({
             }
             // access token has expired, so refresh it
             return await refreshAccessToken(token)
+        },
+        async session({ session, token }) {
+            session.user.accessToken = token.accessToken;
+            session.user.refreshToken = token.refreshToken;
+            session.user.username = token.username;
+            return session;
         }
-    },
-
-    async session({ session, token }) {
-        session.user.accessToken = token.accessToken;
-        session.user.refreshToken = token.refreshToken;
-        session.user.username = token.username;
-
-        return session;
     }
 })

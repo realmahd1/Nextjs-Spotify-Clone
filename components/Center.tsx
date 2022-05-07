@@ -19,7 +19,6 @@ export default function Center() {
     useEffect(() => {
         setColor(shuffle(colors).pop());
     }, [])
-
     return (
         <div className="flex-grow text-white">
             <header className='absolute top-5 right-8'>
