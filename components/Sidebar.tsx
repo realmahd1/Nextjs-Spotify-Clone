@@ -1,12 +1,15 @@
 import { HeartIcon, HomeIcon, LibraryIcon, PlusCircleIcon, RssIcon, SearchIcon } from '@heroicons/react/outline'
-import { signOut, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react';
+import { selectId } from '../features/playlistId';
 import useSpotify from '../hooks/useSpotify';
+import { useAppDispatch } from './../app/hooks';
 
-export default function Sidebar() {
+export default function Sidebar():JSX.Element {
     const spotifyApi = useSpotify();
     const { data: session, status } = useSession();
     const [playLists, setPlayLists] = useState<[]>([]);
+    const dispatch = useAppDispatch();
     useEffect(() => {
         if (spotifyApi.getAccessToken()) {
             spotifyApi.getUserPlaylists().then(data =>{
@@ -16,11 +19,8 @@ export default function Sidebar() {
     }, [session,spotifyApi]);
 
     return (
-        <div className='text-gray-500 p-5 text-sm border-r border-gray-900 overflow-y-scroll h-screen scrollbar-hide'>
+        <div className='text-gray-500 p-5 text-xs lg:text-sm border-r border-gray-900 overflow-y-scroll h-screen sm:max-w-[12rem] lg:max-w-[15rem] hidden md:inline-flex scrollbar-hide'>
             <section className='space-y-4'>
-                <button className='flex items-center space-x-2 hover:text-white' onClick={() => signOut()}>
-                    <p>Log out</p>
-                </button>
                 <button className='flex items-center space-x-2 hover:text-white'>
                     <HomeIcon className='h-5 w-5' />
                     <p>Home</p>
@@ -49,7 +49,7 @@ export default function Sidebar() {
                 <hr className='border-t-[1px] border-gray-900' />
 
                 {playLists.map((playlist)=>(
-                    <p key={playlist.id} className='cursor-pointer hover:text-white'>{playlist.name}</p>
+                    <p key={playlist.id} onClick={()=>dispatch(selectId(playlist.id))} className='cursor-pointer hover:text-white'>{playlist.name}</p>
                 ))}
             </section>
         </div>
