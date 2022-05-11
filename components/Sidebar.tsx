@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { selectId } from '../features/playlistId';
 import useSpotify from '../hooks/useSpotify';
 import { useAppDispatch } from './../app/hooks';
-import { playlistType } from './../types/playlistType';
 import Spotifylogo from './svg/Spotifylogo';
 
 export default function Sidebar():JSX.Element {
@@ -14,8 +13,8 @@ export default function Sidebar():JSX.Element {
     const dispatch = useAppDispatch();
     useEffect(() => {
         if (spotifyApi.getAccessToken()) {
-            spotifyApi.getUserPlaylists().then(data =>{
-                setPlayLists(data?.body.items);
+            spotifyApi.getUserPlaylists().then((data:any) =>{
+                setPlayLists(data?.body?.items);
             })
         }
     }, [session,spotifyApi]);
@@ -51,7 +50,7 @@ export default function Sidebar():JSX.Element {
                 </button>
                 <hr className='border-t-[1px] border-gray-900' />
 
-                {playLists.map((playlist:playlistType)=>(
+                {playLists.map((playlist:SpotifyApi.SinglePlaylistResponse)=>(
                     <p key={playlist.id} onClick={()=>dispatch(selectId(playlist.id))} className='cursor-pointer hover:text-white'>{playlist.name}</p>
                 ))}
             </section>

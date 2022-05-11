@@ -7,7 +7,6 @@ import { useAppSelector } from '../app/hooks';
 import { selectedId } from '../features/playlistId';
 import useSpotify from './../hooks/useSpotify';
 import Songs from './Songs';
-import { playlistType } from '../types/playlistType';
 
 const colors = [
     'from-indigo-500',
@@ -23,7 +22,7 @@ export default function Center():JSX.Element {
     const spotifyApi = useSpotify();
     const [color, setColor] = useState<null | string | undefined>(null);
     const currentPlaylistId = useAppSelector(selectedId);
-    const [playlist, setPlaylist] = useState<playlistType>();
+    const [playlist, setPlaylist] = useState<SpotifyApi.SinglePlaylistResponse>();
     useEffect(() => {
         setColor(shuffle(colors).pop());
     }, [currentPlaylistId])

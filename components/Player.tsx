@@ -7,7 +7,6 @@ import useSongInfo from '../hooks/useSongInfo';
 import { useAppDispatch } from './../app/hooks';
 import { SwitchHorizontalIcon } from '@heroicons/react/outline';
 import { RewindIcon, PlayIcon, PauseIcon, ReplyIcon, FastForwardIcon, VolumeUpIcon } from '@heroicons/react/solid';
-import { songInfoType } from '../types/songInfoType';
 
 export default function Player() {
     const spotifyApi = useSpotify();
@@ -16,12 +15,12 @@ export default function Player() {
     const nowTrackId = useAppSelector(trackId);
     const PlayTrackState = useAppSelector(playTrackState);
     const [volume, setVolume] = useState<number>(50);
-    const songInfo: songInfoType = useSongInfo();
+    const songInfo = useSongInfo();
     const [trackCurrentTime, setTrackCurrentTime] = useState<number>(0);
 
     const fetchCurrentTrack = () => {
         if (!songInfo) {
-            spotifyApi.getMyCurrentPlayingTrack().then((data) => {
+            spotifyApi.getMyCurrentPlayingTrack().then((data:any) => {
                 dispatch(currentTrackId(data?.body?.item?.id));
                 spotifyApi.getMyCurrentPlaybackState().then((data) => {
                     dispatch(changeTrackState(data?.body?.is_playing));
@@ -29,7 +28,7 @@ export default function Player() {
             });
         }
     }
-    const audioPlayer = useRef<HTMLVideoElement>();
+    const audioPlayer = useRef<HTMLAudioElement>(null);
     
     const handlePlayPause = () => {
         if (!PlayTrackState) {
@@ -43,7 +42,7 @@ export default function Player() {
     }
 
     useEffect(() => {
-        audioPlayer.current.volume = volume / 100;
+        audioPlayer!.current!.volume = volume / 100;
     }, [volume])
 
     useEffect(() => {
@@ -52,9 +51,13 @@ export default function Player() {
             setVolume(50);
         }
     }, [nowTrackId, session, spotifyApi]);
- 
+
+    const audioPlayerRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        audioPlayer!.current!.currentTime = Number(event.target.value);
+    }
+
     return (
-        <div className='h-24 bg-gradient-to-b from-black to-gray-900 text-white grid grid-cols-3 text-xs md:text-base px-2 md:px-8'>
+        <div className='h-24 bg-[#181818] border border-[#282828] text-white grid grid-cols-3 text-xs md:text-base px-2 md:px-8'>
             <section className='flex items-center space-x-4'>
                 <img className='hidden md:inline h-14 w-14' src={songInfo?.album.images?.[0]?.url} alt="" />
                 <div>
@@ -80,7 +83,7 @@ export default function Player() {
                 </section>
                 <section className='flex items-center space-x-3 mx-auto'>
                     <p className='text-xs text-[#a7a7a7]'>0:{Math.round(trackCurrentTime) < 10 ? `0${Math.round(trackCurrentTime)}` : Math.round(trackCurrentTime)}</p>
-                    <input className='audio-player-range' onChange={(event: React.ChangeEvent<HTMLInputElement>) =>audioPlayer.current?.currentTime = event.target.value} type='range' value={trackCurrentTime} min='0' max={Math.round(audioPlayer?.current?.duration)} />
+                    <input className='audio-player-range' onChange={audioPlayerRangeChange} type='range' value={trackCurrentTime} min='0' max={audioPlayer?.current?.duration ? Math.round(audioPlayer?.current?.duration) : '100'} />
                     <p className='text-xs text-[#a7a7a7]'>0:{audioPlayer?.current?.duration ? Math.round(audioPlayer?.current?.duration) : '00'}</p>
                 </section>
             </div>
@@ -89,8 +92,8 @@ export default function Player() {
                 <VolumeUpIcon className='player-button' />
                 <input type='range' className='player-range' value={volume} step='1' onChange={(event: React.ChangeEvent<HTMLInputElement>) => setVolume(Number(event.target?.value))} min='0' max='100' />
             </section>
-            <audio ref={audioPlayer} onTimeUpdate={(event) => { setTrackCurrentTime(event.target?.currentTime) }}
-                controls autoPlay className='hidden' src={songInfo?.preview_url || ''}>
+            <audio ref={audioPlayer} onTimeUpdate={(event:React.ChangeEvent<HTMLVideoElement>) => { setTrackCurrentTime(event.target?.currentTime) }}
+                controls autoPlay={PlayTrackState} className='hidden' src={songInfo?.preview_url || ''}>
                 Your browser does not support the audio element.
             </audio>
         </div>

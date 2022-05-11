@@ -9,7 +9,7 @@ export default function useSongInfo() {
     const spotifyApi = useSpotify();
     const currentTrackId = useAppSelector(trackId);
     const [songInfo, setSongInfo] = useState<songInfoType>();
-    
+
     useEffect(() => {
         const fetchSongInfo = async () => {
             if (currentTrackId) {
