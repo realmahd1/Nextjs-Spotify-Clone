@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Sidebar from './../components/Sidebar';
 import Center from './../components/Center';
 import { getSession } from 'next-auth/react';
+import Player from '../components/Player';
 
 const Home: NextPage = () => {
   return (
@@ -16,8 +17,8 @@ const Home: NextPage = () => {
         <Sidebar />
         <Center />
       </main>
-      <div>
-        {/* player */}
+      <div className='sticky bottom-0'>
+        <Player />
       </div>
     </div>
   )
@@ -26,7 +27,7 @@ const Home: NextPage = () => {
 export default Home
 
 // get session before rendering the page
-export async function getServerSideProps(context:any) {
+export async function getServerSideProps(context: any) {
   const session = await getSession(context);
 
   return {

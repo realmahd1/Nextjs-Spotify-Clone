@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react';
 import { selectId } from '../features/playlistId';
 import useSpotify from '../hooks/useSpotify';
 import { useAppDispatch } from './../app/hooks';
+import { playlistType } from './../types/playlistType';
+import Spotifylogo from './svg/Spotifylogo';
 
 export default function Sidebar():JSX.Element {
     const spotifyApi = useSpotify();
-    const { data: session, status } = useSession();
-    const [playLists, setPlayLists] = useState<[]>([]);
+    const { data: session } = useSession();
+    const [playLists, setPlayLists] = useState([]);
     const dispatch = useAppDispatch();
     useEffect(() => {
         if (spotifyApi.getAccessToken()) {
@@ -19,8 +21,9 @@ export default function Sidebar():JSX.Element {
     }, [session,spotifyApi]);
 
     return (
-        <div className='text-gray-500 p-5 text-xs lg:text-sm border-r border-gray-900 overflow-y-scroll h-screen sm:max-w-[12rem] lg:max-w-[15rem] hidden md:inline-flex scrollbar-hide'>
+        <div className='text-[#b3b3b3] p-5 text-xs lg:text-sm border-r border-gray-900 overflow-y-scroll h-screen sm:max-w-[12rem] lg:max-w-[15rem] hidden md:inline-flex scrollbar-hide pb-36'>
             <section className='space-y-4'>
+                <Spotifylogo/>
                 <button className='flex items-center space-x-2 hover:text-white'>
                     <HomeIcon className='h-5 w-5' />
                     <p>Home</p>
@@ -48,7 +51,7 @@ export default function Sidebar():JSX.Element {
                 </button>
                 <hr className='border-t-[1px] border-gray-900' />
 
-                {playLists.map((playlist)=>(
+                {playLists.map((playlist:playlistType)=>(
                     <p key={playlist.id} onClick={()=>dispatch(selectId(playlist.id))} className='cursor-pointer hover:text-white'>{playlist.name}</p>
                 ))}
             </section>

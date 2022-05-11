@@ -7,6 +7,7 @@ import { useAppSelector } from '../app/hooks';
 import { selectedId } from '../features/playlistId';
 import useSpotify from './../hooks/useSpotify';
 import Songs from './Songs';
+import { playlistType } from '../types/playlistType';
 
 const colors = [
     'from-indigo-500',
@@ -22,10 +23,11 @@ export default function Center():JSX.Element {
     const spotifyApi = useSpotify();
     const [color, setColor] = useState<null | string | undefined>(null);
     const currentPlaylistId = useAppSelector(selectedId);
-    const [playlist, setPlaylist] = useState();
+    const [playlist, setPlaylist] = useState<playlistType>();
     useEffect(() => {
         setColor(shuffle(colors).pop());
     }, [currentPlaylistId])
+    
     useEffect(() => {
         if (spotifyApi.getAccessToken()) {
             spotifyApi
@@ -46,10 +48,11 @@ export default function Center():JSX.Element {
                 </div>
             </header>
             <section className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-80 p-8`}>
-                <img className='h-44 w-44 shadow-2xl' src={playlist?.images[0]?.url} alt='' />
+                <img className='h-[232px] w-[232px] shadow-2xl' src={playlist?.images[0]?.url} alt='' />
             <div>
-                <p>PLAYLIST</p>
-                <h1 className='text-2xl md:text-3xl xl:text-5xl font-bold'>{playlist?.name}</h1>
+                <p className='text-xs font-bold'>PLAYLIST</p>
+                <h1 className='text-2xl md:text-3xl xl:text-8xl font-bold'>{playlist?.name}</h1>
+                <p className='text-[#ffffffB3] mt-4'>{playlist?.description}</p>
             </div>
             </section>
             <Songs playlist={playlist}/>

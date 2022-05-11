@@ -1,3 +1,60 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components{
+    .player-button{
+        @apply h-5 w-5 cursor-pointer hover:scale-125 transition transform duration-100 ease-out;
+    }
+}
+
+
+
+ .player-range {
+    width: 92px;
+    height: 4px;
+    -webkit-appearance: none;
+    background: #a7a7a7;
+    outline: none;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  .audio-player-range{
+    width: 430px;
+    height: 4px;
+    -webkit-appearance: none;
+    background: #a7a7a7;
+    outline: none;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  .player-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: -92px 0 0 92px #fff;
+  }
+  .audio-player-range::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: -430px 0 0 430px #fff;
+  }
+  .player-range::-webkit-slider-thumb:hover {
+    -webkit-appearance: none;
+    background: #fff;
+    box-shadow: -92px 0 0 92px #1DB954;
+  }
+  .spotify-logo--text {
+    height: 40px;
+    max-width: 131px;
+    width: 100%;
+    color: #fff;
+    margin-bottom: 28px;
+}
