@@ -7,7 +7,7 @@ type songs = {
 
 export default function Songs({playlist}:songs) {
   return (
-    <div className='p-8 flex flex-col space-y-1 pb-28 text-white'>
+    <div className='py-8 px-6 flex flex-col space-y-1 pb-28 text-white'>
         {playlist?.tracks.items.map((track:any,index:number)=>(
             <Song key={track?.track?.id} track={track?.track} order={index}/>
         ))}
