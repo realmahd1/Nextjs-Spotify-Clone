@@ -1,12 +1,12 @@
 import { HeartIcon, HomeIcon, LibraryIcon, PlusCircleIcon, RssIcon, SearchIcon } from '@heroicons/react/outline'
 import { useSession } from 'next-auth/react'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from 'react';
 import { selectId } from '../features/playlistId';
 import useSpotify from '../hooks/useSpotify';
 import { useAppDispatch } from './../app/hooks';
 import Spotifylogo from './svg/Spotifylogo';
 
-export default function Sidebar():JSX.Element {
+const Sidebar:FC = () => {
     const spotifyApi = useSpotify();
     const { data: session } = useSession();
     const [playLists, setPlayLists] = useState([]);
@@ -15,10 +15,12 @@ export default function Sidebar():JSX.Element {
         if (spotifyApi.getAccessToken()) {
             spotifyApi.getUserPlaylists().then((data:any) =>{
                 setPlayLists(data?.body?.items);
+                // show first item of playlist as default
+                dispatch(selectId(data?.body?.items[0]?.id));
             })
         }
     }, [session,spotifyApi]);
-
+    
     return (
         <div className='text-[#b3b3b3] p-5 text-xs lg:text-sm border-r border-gray-900 overflow-y-scroll h-screen sm:max-w-[12rem] lg:max-w-[15rem] hidden md:inline-flex scrollbar-hide pb-36'>
             <section className='space-y-4'>
@@ -57,3 +59,4 @@ export default function Sidebar():JSX.Element {
         </div>
     )
 }
+export default  Sidebar;

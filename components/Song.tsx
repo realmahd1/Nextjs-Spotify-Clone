@@ -1,14 +1,14 @@
-import React from 'react'
+import React, {FC} from 'react'
 import { millisToMinutesAndSeconds } from './../lib/time';
 import { useAppDispatch } from './../app/hooks';
 import { currentTrackId, changeTrackState } from '../features/song';
 
 type song = {
-    track: any,
+    track: SpotifyApi.TrackObjectFull,
     order: number
 }
 
-export default function Song({ track, order }: song) {
+const Song:FC<song> = ({ track, order }) => {
     const dispatch = useAppDispatch();
 
     const playSong = () => {
@@ -22,7 +22,7 @@ export default function Song({ track, order }: song) {
                 <img className="w-10 h-10" src={track?.album.images[0].url} alt="" />
                 <div>
                     <p className='w-36 lg:w-64 truncate text-white'>{track?.name}</p>
-                    <p className='w-40 truncate'>{track?.artists.map((artist:any, index:number) => `${artist.name} ${(index !== track?.artists.length - 1) ? ', ' : ''} `)}</p>
+                    <p className='w-40 truncate'>{track?.artists.map((artist: any, index: number) => `${artist.name} ${(index !== track?.artists.length - 1) ? ', ' : ''} `)}</p>
                 </div>
             </section>
             <section className='flex items-center justify-between ml-auto md:ml-0 text-sm'>
@@ -32,3 +32,4 @@ export default function Song({ track, order }: song) {
         </div>
     )
 }
+export default Song;

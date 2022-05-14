@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef,FC } from 'react'
 import useSpotify from './../hooks/useSpotify';
 import { useSession } from 'next-auth/react';
 import { useAppSelector } from '../app/hooks';
@@ -8,7 +8,7 @@ import { useAppDispatch } from './../app/hooks';
 import { SwitchHorizontalIcon } from '@heroicons/react/outline';
 import { RewindIcon, PlayIcon, PauseIcon, ReplyIcon, FastForwardIcon, VolumeUpIcon } from '@heroicons/react/solid';
 
-export default function Player() {
+const Player:FC = ()=> {
     const spotifyApi = useSpotify();
     const { data: session } = useSession();
     const dispatch = useAppDispatch();
@@ -99,3 +99,4 @@ export default function Player() {
         </div>
     )
 }
+export default Player;

@@ -7,7 +7,7 @@ export interface PlaylistIdState {
 }
 
 const initialState: PlaylistIdState = {
-  value: '37i9dQZEVXbk1zNzGvR5PB',
+  value: '',
   status: 'idle',
 };
 

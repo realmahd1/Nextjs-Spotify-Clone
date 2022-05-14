@@ -1,7 +1,7 @@
 
 import { ChevronDownIcon } from '@heroicons/react/outline';
 import { useSession, signOut } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 import { shuffle } from 'lodash';
 import { useAppSelector } from '../app/hooks';
 import { selectedId } from '../features/playlistId';
@@ -18,7 +18,7 @@ const colors = [
     'from-pink-500',
     'from-purple-500'
 ]
-export default function Center():JSX.Element {
+const Center:FC = () => {
     const { data: session } = useSession();
     const spotifyApi = useSpotify();
     const [color, setColor] = useState<null | string | undefined>(null);
@@ -29,7 +29,7 @@ export default function Center():JSX.Element {
     }, [currentPlaylistId])
     
     useEffect(() => {
-        if (spotifyApi.getAccessToken()) {
+        if (spotifyApi.getAccessToken() && currentPlaylistId) {
             spotifyApi
                 .getPlaylist(currentPlaylistId)
                 .then((data) => {
@@ -64,3 +64,4 @@ export default function Center():JSX.Element {
         </div>
     )
 }
+export default Center;
