@@ -62,11 +62,11 @@ export default function Player() {
                 <img className='hidden md:inline h-14 w-14' src={songInfo?.album.images?.[0]?.url} alt="" />
                 <div>
                     <p className='text-sm'>{songInfo?.name}</p>
-                    <p className='text-xs text-[#b3b3b3]'>{songInfo?.artists.map((artist, index) => `${artist.name} ${index !== songInfo?.artists.length - 1 && ', '} `)}</p>
+                    <p className='text-xs text-[#b3b3b3] truncate w-60'>{songInfo?.artists.map((artist, index) => `${artist.name} ${index !== songInfo?.artists.length - 1 ? ', ' : ''} `)}</p>
                 </div>
             </section>
             <div className='flex flex-col justify-center'>
-                <section className='flex items-center justify-evenly mb-[8px]'>
+                <section className='flex items-center justify-center space-x-4 mb-[8px]'>
                     <SwitchHorizontalIcon className='player-button' />
                     <RewindIcon
                         // onClick={() => {spotifyApi.skipToPrevious()}} The API is not working

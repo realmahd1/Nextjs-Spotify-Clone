@@ -22,10 +22,10 @@ export default function Song({ track, order }: song) {
                 <img className="w-10 h-10" src={track?.album.images[0].url} alt="" />
                 <div>
                     <p className='w-36 lg:w-64 truncate text-white'>{track?.name}</p>
-                    <p className='w-40 truncate'>{track?.artists.map((artist:any, index:number) => `${artist.name} ${index !== track?.artists.length - 1 && ', '} `)}</p>
+                    <p className='w-40 truncate'>{track?.artists.map((artist:any, index:number) => `${artist.name} ${(index !== track?.artists.length - 1) ? ', ' : ''} `)}</p>
                 </div>
             </section>
-            <section className='flex items-center justify-between ml-auto md:ml-0'>
+            <section className='flex items-center justify-between ml-auto md:ml-0 text-sm'>
                 <p className="w-40 hidden md:inline truncate">{track?.album.name}</p>
                 <p>{millisToMinutesAndSeconds(track?.duration_ms)}</p>
             </section>
