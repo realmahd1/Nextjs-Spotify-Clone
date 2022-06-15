@@ -1,6 +1,6 @@
 ## About
 In this Spotify Clone, I use **next js v12, tailwind, next js middleware, typescript, next auth, redux toolkit**, and the important part is using **Spotify API** for getting user information.
-This project can show your playlists on Spotify and play themes for the 30s.
+This project can show your playlists on Spotify and play them for the 30s.
 You can handle the volume and time of the track that plays.
 
 
